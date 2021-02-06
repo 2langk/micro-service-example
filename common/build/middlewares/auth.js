@@ -5,11 +5,10 @@ const jwt = require("jsonwebtoken");
 const AppError_1 = require("./AppError");
 const checkLogin = (req, res, next) => {
     const token = req.cookies.jwt;
-    const user = jwt.verify(token, 'jwt_secret');
-    if (user) {
-        req.user = user;
+    const decode = jwt.verify(token, 'jwt_secret');
+    if (decode) {
+        req.user = decode.user;
     }
-    console.log(user);
     next();
 };
 exports.checkLogin = checkLogin;

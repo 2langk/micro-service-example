@@ -1,15 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-interface User {
-    id: string;
-    email: string;
-}
+import { RequestHandler } from 'express';
 declare global {
     namespace Express {
         interface Request {
-            user?: User;
+            user?: any;
         }
     }
 }
-export declare const checkLogin: (req: Request, res: Response, next: NextFunction) => void;
-export declare const mustLogin: (req: Request, res: Response, next: NextFunction) => void;
-export {};
+export declare const checkLogin: RequestHandler;
+export declare const mustLogin: RequestHandler;

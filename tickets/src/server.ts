@@ -3,7 +3,10 @@ import * as cookieParser from 'cookie-parser';
 import * as mongoose from 'mongoose';
 import { globalErrorHandler } from '@2langk-common/mse';
 import * as secret from './secret.json';
+import natsClient from './events/nats-connect';
 import router from './router';
+
+process.env.NODE_ENV = 'development';
 
 const app = express();
 
@@ -11,11 +14,9 @@ app.set('trust proxy', true);
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/api/auth', router);
+app.use('/api/tickets', router);
 
 app.use(globalErrorHandler);
-
-process.env.NODE_ENV = 'development';
 
 mongoose
 	.connect(secret.mongoURL, {
@@ -25,4 +26,17 @@ mongoose
 	})
 	.then(() => console.log('DB connected!'));
 
-app.listen('3000', () => console.log('Auth Server is running on 3000'));
+natsClient.on('connect', () => {
+	console.log('NATS connected!');
+	natsClient.on('close', () => {
+		console.log('NATS connection closed!');
+		process.exit();
+	});
+
+	// listeners
+});
+
+process.on('SIGINT', () => natsClient.close());
+process.on('SIGTERM', () => natsClient.close());
+
+app.listen('3001', () => console.log('Tickets Server is running on 3001'));
