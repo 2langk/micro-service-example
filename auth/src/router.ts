@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as jwt from 'jsonwebtoken';
+import { AppError, checkLogin, mustLogin } from '@2langk-common/mse';
 import User from './User';
 
 const router = Router();
@@ -15,12 +16,12 @@ router.post('/register', async (req, res) => {
 	});
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
 	const { email, password } = req.body;
 
 	const user = await User.findOne({ email, password });
 
-	if (!user) return res.json({ status: 'fail' });
+	if (!user) return next(new AppError('비밀번호를 확인하세요', 400));
 
 	const token = jwt.sign({ user }, 'jwt_secret', {
 		expiresIn: '1d'
@@ -38,7 +39,7 @@ router.post('/login', async (req, res) => {
 	});
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', checkLogin, mustLogin, (req, res) => {
 	const token = jwt.sign({ user: 'undefined' }, 'jwt_secret', {
 		expiresIn: '1s'
 	});

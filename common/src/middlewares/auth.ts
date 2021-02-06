@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-import AppError from './AppError';
-import catchAsync from './catchAsync';
+import { AppError } from './AppError';
+import { catchAsync } from './catchAsync';
 
 interface User {
 	id: string;
@@ -18,22 +18,20 @@ declare global {
 	}
 }
 
-export const chcekLogin = catchAsync(
-	(req: Request, res: Response, next: NextFunction) => {
-		const token = req.cookies.jwt;
+export const checkLogin = (req: Request, res: Response, next: NextFunction) => {
+	const token = req.cookies.jwt;
 
-		const user = jwt.verify(token, 'jwt_secret') as User;
+	const user = jwt.verify(token, 'jwt_secret') as User;
 
-		if (user) {
-			req.user = user;
-		}
-		console.log(user);
-		next();
+	if (user) {
+		req.user = user;
 	}
-);
+	console.log(user);
+	next();
+};
 
-export const mustLogin = catchAsync(
-	(req: Request, res: Response, next: NextFunction) => {
-		if (!req.user) return next(new AppError('로그인이 필요합니다.', 400));
-	}
-);
+export const mustLogin = (req: Request, res: Response, next: NextFunction) => {
+	if (!req.user) return next(new AppError('로그인이 필요합니다.', 400));
+
+	next();
+};

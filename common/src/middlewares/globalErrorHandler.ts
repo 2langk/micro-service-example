@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import AppError from './AppError';
+import { AppError } from './AppError';
 
 const sendErrorProd = (err: AppError, req: Request, res: Response) => {
 	if (err.isOperational) {
@@ -26,7 +26,8 @@ const sendErrorDev = (err: AppError, req: Request, res: Response) =>
 		stack: err.stack
 	});
 
-const globalErrorHandler = (
+// eslint-disable-next-line import/prefer-default-export
+export const globalErrorHandler = (
 	err: Error,
 	req: Request,
 	res: Response,
@@ -44,5 +45,3 @@ const globalErrorHandler = (
 		sendErrorProd(error, req, res);
 	}
 };
-
-export default globalErrorHandler;

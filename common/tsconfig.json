@@ -10,6 +10,7 @@
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "typeRoots": ["./src/custom", "./node_modules/@types"]
+    "typeRoots": ["./src/custom", "./node_modules/@types"],
+    "declaration": true
   }
 }
