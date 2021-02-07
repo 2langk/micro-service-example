@@ -1,9 +1,13 @@
 import { Router } from 'express';
-// import {} from 'controller'
+import { checkLogin, mustLogin } from '@2langk-common/mse';
+import { createOrder, updateOrder } from './controller';
 
 const router = Router();
 
-router.route('/').get().post();
-router.route('/:id').get().patch();
+router.use(checkLogin);
+router.use(mustLogin);
+
+router.route('/').post(createOrder);
+router.route('/:id').get().patch(updateOrder);
 
 export default router;
