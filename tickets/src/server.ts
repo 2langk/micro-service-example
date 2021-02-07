@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import { globalErrorHandler } from '@2langk-common/mse';
 import * as secret from './secret.json';
 import natsClient from './events/nats-connect';
+import { OrderCreatedListener, OrderUpdatedListener } from './events/listener';
 import router from './router';
 
 process.env.NODE_ENV = 'development';
@@ -34,6 +35,8 @@ natsClient.on('connect', () => {
 	});
 
 	// listeners
+	new OrderCreatedListener(natsClient).listen();
+	new OrderUpdatedListener(natsClient).listen();
 });
 
 process.on('SIGINT', () => natsClient.close());
