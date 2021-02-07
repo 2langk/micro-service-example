@@ -20,3 +20,31 @@ export interface TicketUpdatedEvent {
         __v: number;
     };
 }
+export interface OrderCreatedEvent {
+    subeject: Subjects.OrderCreated;
+    data: {
+        _id: string;
+        userId: string;
+        status: 'pending' | 'completed' | 'cancelled';
+        expiresAt: Date;
+        __v: number;
+        ticket: {
+            _id: string;
+            __v: number;
+        };
+    };
+}
+export interface OrderUpdatedEvent {
+    subeject: Subjects.OrderUpdated;
+    data: {
+        _id: string;
+        userId: string;
+        status: 'pending' | 'completed' | 'cancelled';
+        expiresAt: Date;
+        __v: number;
+        ticket: {
+            _id: string;
+            __v: number;
+        };
+    };
+}
