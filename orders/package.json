@@ -1,0 +1,26 @@
+{
+  "name": "orders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.ts --exec ts-node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@2langk-common/mse": "^1.0.7",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.3",
+    "@types/mongoose": "^5.7.8",
+    "@types/node": "^14.14.25",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7",
+    "node-nats-streaming": "^0.2.6",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}
