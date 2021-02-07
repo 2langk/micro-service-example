@@ -22,7 +22,8 @@ const orderSchema = new mongoose.Schema({
 		default: 'pending'
 	},
 	expiresAt: {
-		type: mongoose.Schema.Types.Date
+		type: mongoose.Schema.Types.Date,
+		default: () => Date.now() + 60 * 1000
 	},
 	ticket: {
 		type: mongoose.Schema.Types.ObjectId,

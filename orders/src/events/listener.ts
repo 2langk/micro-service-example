@@ -36,7 +36,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 	// eslint-disable-next-line class-methods-use-this
 	async onMessage(data: TicketUpdatedEvent['data'], msg: Message) {
 		try {
-			const { _id, title, price, __v, userId } = data;
+			const { _id, title, price, __v, orderId } = data;
 
 			const ticket = await Ticket.findOne({ _id, __v: __v - 1 });
 
@@ -44,6 +44,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
 			ticket.title = title;
 			ticket.price = price;
+			ticket.orderId = orderId;
 			ticket.__v = __v;
 
 			await ticket.save();
