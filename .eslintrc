@@ -31,6 +31,8 @@
    "consistent-return": "off",
    "@typescript-eslint/no-non-null-assertion": "off",
    "no-param-reassign": "off",
-   "import/prefer-default-export": "off"
+   "import/prefer-default-export": "off",
+   "max-classes-per-file": "off",
+   "no-underscore-dangle": "off"
   }
 }
