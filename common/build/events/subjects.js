@@ -8,4 +8,5 @@ var Subjects;
     Subjects["TicketUpdated"] = "ticket:updated";
     Subjects["OrderCreated"] = "order:created";
     Subjects["OrderUpdated"] = "order:updated";
+    Subjects["OrderExpired"] = "order:expired";
 })(Subjects = exports.Subjects || (exports.Subjects = {}));

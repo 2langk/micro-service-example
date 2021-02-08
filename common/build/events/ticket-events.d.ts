@@ -21,7 +21,7 @@ export interface TicketUpdatedEvent {
     };
 }
 export interface OrderCreatedEvent {
-    subeject: Subjects.OrderCreated;
+    subject: Subjects.OrderCreated;
     data: {
         _id: string;
         userId: string;
@@ -35,7 +35,7 @@ export interface OrderCreatedEvent {
     };
 }
 export interface OrderUpdatedEvent {
-    subeject: Subjects.OrderUpdated;
+    subject: Subjects.OrderUpdated;
     data: {
         _id: string;
         userId: string;
@@ -46,5 +46,12 @@ export interface OrderUpdatedEvent {
             _id: string;
             __v: number;
         };
+    };
+}
+export interface OrderExpiredEvent {
+    subject: Subjects.OrderExpired;
+    data: {
+        _id: string;
+        __v: number;
     };
 }

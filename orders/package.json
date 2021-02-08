@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@2langk-common/mse": "^1.0.8",
+    "@2langk-common/mse": "^1.0.9",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.3",
     "@types/mongoose": "^5.7.8",
