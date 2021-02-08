@@ -3,12 +3,15 @@ import {
 	Listener,
 	TicketCreatedEvent,
 	TicketUpdatedEvent,
+	OrderExpiredEvent,
 	Subjects,
 	AppError
 } from '@2langk-common/mse';
 
 import { Message } from 'node-nats-streaming';
 import Ticket from '../models/Ticket';
+import Order from '../models/Order';
+import { OrderUpdatedPublisher } from './publisher';
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
 	subject: Subjects.TicketCreated = Subjects.TicketCreated;
@@ -49,6 +52,44 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
 			await ticket.save();
 
+			msg.ack();
+		} catch (e) {
+			console.error(e);
+		}
+	}
+}
+
+export class OrderExpiredListener extends Listener<OrderExpiredEvent> {
+	subject: Subjects.OrderExpired = Subjects.OrderExpired;
+
+	queueGroupName = 'orders-service';
+
+	// eslint-disable-next-line class-methods-use-this
+	async onMessage(
+		data: OrderExpiredEvent['data'],
+		msg: Message
+	): Promise<void> {
+		try {
+			const order = await Order.findById(data._id).populate('ticket');
+
+			if (!order) return msg.ack();
+			if (order.status === 'completed') return msg.ack();
+
+			order.status = 'cancelled';
+			order.__v! += 1;
+
+			await order.save();
+			await new OrderUpdatedPublisher(this.natsClient).publish({
+				_id: order._id,
+				status: order.status,
+				userId: order.userId,
+				expiresAt: order.expiresAt,
+				__v: order.__v!,
+				ticket: {
+					_id: order.ticket._id,
+					__v: order.ticket.__v!
+				}
+			});
 			msg.ack();
 		} catch (e) {
 			console.error(e);

@@ -52,3 +52,10 @@ export interface OrderUpdatedEvent {
 		};
 	};
 }
+export interface OrderExpiredEvent {
+	subject: Subjects.OrderExpired;
+	data: {
+		_id: string;
+		__v: number;
+	};
+}
